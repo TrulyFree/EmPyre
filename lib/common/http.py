@@ -161,10 +161,10 @@ class EmPyreServer(threading.Thread):
             # wrap it all up in SSL if a cert is specified
             if cert and cert != "" and key and key != "":
                 self.serverType = "HTTPS"
-                cert = os.path.abspath(cert)
-                key = os.path.abspath(key)
+                # cert = os.path.abspath(cert)
+                # key = os.path.abspath(key)
 
-                self.server.socket = ssl.wrap_socket(self.server.socket, certfile=cert, keyfile=key, server_side=True)
+                self.server.socket = ssl.wrap_socket(self.server.socket, keyfile=key, certfile=cert, server_side=True)
 
                 dispatcher.send("[*] Initializing HTTPS server on "+str(port), sender="EmPyreServer")
             else:
