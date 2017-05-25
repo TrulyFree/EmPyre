@@ -238,7 +238,7 @@ class Stagers:
         if "https" in stage0uri:
             # monkey patch ssl woohooo
             launcherBase += "import ssl;\nif hasattr(ssl, '_create_unverified_context'):ssl._create_default_https_context = ssl._create_unverified_context;\n"
-            stage0url = stage0url.replace("https:", "http:");
+            stage0uri = stage0uri.replace("https:", "http:");
 
         launcherBase += "import sys, urllib2;"
         try:
