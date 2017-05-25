@@ -70,6 +70,7 @@ class Stager:
         else:
             launcher = launcher.replace('"', '\\"')
 
-            applescript = "do shell script \"%s\"" % (launcher)
+            applescript = "do shell script \"%s\"\n" % (launcher)
+            applescript += "do shell script \"(sleep 1; osascript -e 'tell app \\\"Script Editor\\\" to quit saving no') &>/dev/null &\""
 
             return applescript
