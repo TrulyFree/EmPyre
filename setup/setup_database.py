@@ -52,6 +52,9 @@ DEFAULT_PROFILE = "/admin/get.php,/news.asp,/login/process.jsp|Mozilla/5.0 (Maci
 # default https cert to use
 DEFAULT_CERT_PATH = ''
 
+# default https key to use
+DEFAULT_KEY_PATH = ''
+
 # the default port for listeners
 DEFAULT_PORT = 8080
 
@@ -114,6 +117,7 @@ c.execute('''CREATE TABLE config (
     "default_jitter" real,
     "default_profile" text,
     "default_cert_path" text,
+    "default_key_path" text,
     "default_port" text,
     "install_path" text,
     "server_version" text,
@@ -130,7 +134,7 @@ c.execute('''CREATE TABLE config (
     )''')
 
 # kick off the config component of the database
-c.execute("INSERT INTO config VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (STAGING_KEY,STAGE0_URI,STAGE1_URI,STAGE2_URI,DEFAULT_DELAY,DEFAULT_JITTER,DEFAULT_PROFILE,DEFAULT_CERT_PATH,DEFAULT_PORT,INSTALL_PATH,SERVER_VERSION,IP_WHITELIST,IP_BLACKLIST, DEFAULT_LOST_LIMIT, "", "", False, API_USERNAME, API_PASSWORD, "", API_PERMANENT_TOKEN))
+c.execute("INSERT INTO config VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (STAGING_KEY,STAGE0_URI,STAGE1_URI,STAGE2_URI,DEFAULT_DELAY,DEFAULT_JITTER,DEFAULT_PROFILE,DEFAULT_CERT_PATH,DEFAULT_KEY_PATH,DEFAULT_PORT,INSTALL_PATH,SERVER_VERSION,IP_WHITELIST,IP_BLACKLIST, DEFAULT_LOST_LIMIT, "", "", False, API_USERNAME, API_PASSWORD, "", API_PERMANENT_TOKEN))
 
 c.execute('DROP TABLE IF EXISTS "agents"')
 c.execute('''CREATE TABLE "agents" (

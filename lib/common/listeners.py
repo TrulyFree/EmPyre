@@ -42,7 +42,7 @@ class Listeners:
         # set the initial listener config to be the config defaults
         self.conn.row_factory = dict_factory
         cur = self.conn.cursor()
-        cur.execute("SELECT staging_key,default_delay,default_jitter,default_profile,default_cert_path,default_port,default_lost_limit FROM config")
+        cur.execute("SELECT staging_key,default_delay,default_jitter,default_profile,default_cert_path,default_key_path,default_port,default_lost_limit FROM config")
         defaults = cur.fetchone()
         cur.close()
         self.conn.row_factory = None
@@ -98,6 +98,11 @@ class Listeners:
                 'Description'   :   'Certificate path for https listeners.',
                 'Required'      :   False,
                 'Value'         :   defaults['default_cert_path']
+            },
+            'KeyPath' : {
+                'Description'   :   'Private key path for https listeners.',
+                'Required'      :   False,
+                'Value'         :   defaults['default_key_path']
             },
             'Port' : {
                 'Description'   :   'Port for the listener.',
@@ -202,7 +207,7 @@ class Listeners:
 
             return True
 
-        elif option == "CertPath":
+        elif option == "CertPath" or option == "KeyPath":
             self.options[option]['Value'] = value
             host = self.options["Host"]['Value']
             # if we're setting a SSL cert path, but the host is specific at http

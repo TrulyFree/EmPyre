@@ -138,7 +138,7 @@ class EmPyreServer(threading.Thread):
     Uses agents.RequestHandler handle inbound requests.
     """
 
-    def __init__(self, handler, lhost='0.0.0.0', port=80, cert=''):
+    def __init__(self, handler, lhost='0.0.0.0', port=80, cert='', key=''):
 
         # set to False if the listener doesn't successfully start
         self.success = True
@@ -159,11 +159,12 @@ class EmPyreServer(threading.Thread):
             self.serverType = "HTTP"
 
             # wrap it all up in SSL if a cert is specified
-            if cert and cert != "":
+            if cert and cert != "" and key and key != "":
                 self.serverType = "HTTPS"
                 cert = os.path.abspath(cert)
+                key = os.path.abspath(key)
 
-                self.server.socket = ssl.wrap_socket(self.server.socket, certfile=cert, server_side=True)
+                self.server.socket = ssl.wrap_socket(self.server.socket, certfile=cert, keyfile=key, server_side=True)
 
                 dispatcher.send("[*] Initializing HTTPS server on "+str(port), sender="EmPyreServer")
             else:
