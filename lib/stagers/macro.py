@@ -95,7 +95,6 @@ Private Declare Function popen Lib "libc.dylib" (ByVal command As String, ByVal 
 
 Private Sub Workbook_Open()
     Dim cmd As String
-    %s
     #If VBA7 Then
     Dim result As LongPtr
     #Else
