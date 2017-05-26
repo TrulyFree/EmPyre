@@ -191,7 +191,7 @@ class EmPyreServer(threading.Thread):
     def run(self):
         try:
             self.server.serve_forever()
-            if (self.serverType == "HTTPS")
+            if self.serverType == "HTTPS":
                 self.proxyInstance = tornado.ioloop.IOLoop.instance()
                 self.proxyInstance.start();
         except:
