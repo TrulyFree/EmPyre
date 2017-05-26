@@ -175,7 +175,7 @@ class EmPyreServer(threading.Thread):
             # pass the agent handler object along for the RequestHandler
             self.server.agents = handler
 
-            if self.serverType != "HTTPS"
+            if self.serverType != "HTTPS":
                 self.serverType = "HTTP"
 
             dispatcher.send("[*] Initializing HTTP server on "+str(port), sender="EmPyreServer")
