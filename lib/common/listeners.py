@@ -181,7 +181,7 @@ class Listeners:
 
             elif value.startswith("https"):
                 self.options['Host']['Value'] = value
-                if self.options['CertPath']['Value'] == "":
+                if self.options['CertPath']['Value'] == "" or self.options['KeyPath']['Value']:
                     print helpers.color("[!] Error: Please specify a SSL cert path first")
                     return False
                 else:

@@ -16,6 +16,8 @@ from pydispatch import dispatcher
 import socket
 # EmPyre imports
 import helpers
+import tornado.ioloop
+import maproxy.proxyserver
 
 
 # TODO: place this in a config
@@ -142,7 +144,25 @@ class EmPyreServer(threading.Thread):
 
         # set to False if the listener doesn't successfully start
         self.success = True
+        self.serverType = ""
+        self.port = port
+        
+        # use maproxy if https is enabled
+        if cert and cert != "" and key and key != "":
+            self.serverType = "HTTPS"
+            # cert = os.path.abspath(cert)
+            # key = os.path.abspath(key)
+            ssl_certs={     "certfile":  cert,
+                            "keyfile": key }
 
+            server = maproxy.proxyserver.ProxyServer("localhost",port + 1,
+                                         client_ssl_options=ssl_certs)
+            server.listen(port)
+
+            dispatcher.send("[*] Initializing HTTPS proxy on "+str(port), sender="EmPyreServer")
+            port = port + 1
+            self.port = port
+        
         try:
             threading.Thread.__init__(self)
             self.server = None
@@ -155,20 +175,10 @@ class EmPyreServer(threading.Thread):
             # pass the agent handler object along for the RequestHandler
             self.server.agents = handler
 
-            self.port = port
-            self.serverType = "HTTP"
+            if self.serverType != "HTTPS"
+                self.serverType = "HTTP"
 
-            # wrap it all up in SSL if a cert is specified
-            if cert and cert != "" and key and key != "":
-                self.serverType = "HTTPS"
-                # cert = os.path.abspath(cert)
-                # key = os.path.abspath(key)
-
-                self.server.socket = ssl.wrap_socket(self.server.socket, keyfile=key, certfile=cert, server_side=True)
-
-                dispatcher.send("[*] Initializing HTTPS server on "+str(port), sender="EmPyreServer")
-            else:
-                dispatcher.send("[*] Initializing HTTP server on "+str(port), sender="EmPyreServer")
+            dispatcher.send("[*] Initializing HTTP server on "+str(port), sender="EmPyreServer")
 
         except Exception as e:
             self.success = False
@@ -181,6 +191,9 @@ class EmPyreServer(threading.Thread):
     def run(self):
         try:
             self.server.serve_forever()
+            if (self.serverType == "HTTPS")
+                self.proxyInstance = tornado.ioloop.IOLoop.instance()
+                self.proxyInstance.start();
         except:
             pass
 

@@ -23,6 +23,7 @@ if lsb_release -d | grep -q "Fedora"; then
 	pip install macholib
 	pip install flask
 	pip install pyinstaller
+    pip install maproxy
 elif lsb_release -d | grep -q "Kali"; then
 	Release=Kali
 	apt-get install python-dev
@@ -36,6 +37,7 @@ elif lsb_release -d | grep -q "Kali"; then
 	pip install macholib
 	pip install flask
 	pip install pyinstaller
+    pip install maproxy
 elif lsb_release -d | grep -q "Ubuntu"; then
 	Release=Ubuntu
 	apt-get install python-pip python-dev build-essential 
@@ -48,19 +50,21 @@ elif lsb_release -d | grep -q "Ubuntu"; then
 	pip install pydispatcher
 	pip install macholib
 	pip install flask
-	pip install pyinstaller
+    pip install pyinstaller
+    pip install maproxy
 else
 	echo "Unknown distro - Debian/Ubuntu Fallback"
-	 apt-get install python-pip python-dev build-essential 
-	 pip install --upgrade pip 
-	 apt-get install python-m2crypto
-	 apt-get install swig
-	 pip install zlib_wrapper
-	 pip install pycrypto
-	 pip install iptools
-	 pip install pydispatcher
-	 pip install macholib
-	 pip install flask
+    apt-get install python-pip python-dev build-essential 
+    pip install --upgrade pip 
+    apt-get install python-m2crypto
+    apt-get install swig
+    pip install zlib_wrapper
+    pip install pycrypto
+    pip install iptools
+    pip install pydispatcher
+    pip install macholib
+    pip install flask
+    pip install maproxy
 fi
 
 # set up the database schema
